@@ -14,7 +14,7 @@
 
 from typing import Dict
 
-from flask import request
+from flask import request, has_request_context
 import structlog
 
 from utils import metadata
@@ -46,7 +46,7 @@ def trace_modifier(
     https://cloud.google.com/run/docs/logging#correlate-logs
     """
     # Only attempt to get the context if in a request
-    if request:
+    if has_request_context():
 
         trace_header = request.headers.get("X-Cloud-Trace-Context")
         # Only append the trace if it exists in the request
